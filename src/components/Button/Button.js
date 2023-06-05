@@ -1,0 +1,9 @@
+import React from 'react';
+
+export function Button({ onClick }) {
+  return (
+    <button type="button" onClick={onClick}>
+      Load more
+    </button>
+  );
+}
