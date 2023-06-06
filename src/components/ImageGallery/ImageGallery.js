@@ -1,17 +1,17 @@
 import React from 'react';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
-
+import css from '../ImageGallery/ImageGallery.module.css';
 export function ImageGallery({ images }) {
   return (
-    <ul>
+    <ul className={css.ImageGallery}>
       {images &&
         images.map(image => {
           return (
             <ImageGalleryItem
               key={image.id}
-              smallUrl={image.webformatURL}
+              smallImg={image.webformatURL}
               description={image.tags}
-              bigUrl={image.largeImageURL}
+              bigImg={image.largeImageURL}
             />
           );
         })}

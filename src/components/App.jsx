@@ -3,6 +3,10 @@ import { Searchbar } from './Searchbar/Searchbar';
 import * as GetImg from '../service/getImg';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
+import { Loader } from './Loader/Loader';
+
+import css from './App.module.css';
+// import { Modal } from './Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -11,6 +15,10 @@ export class App extends Component {
     page: 1,
     isEmpty: true,
     isVisible: false,
+    error: null,
+    isLoading: false,
+    showModal: false,
+    selectedImage: null,
   };
 
   componentDidUpdate(_, prevState) {
@@ -22,27 +30,39 @@ export class App extends Component {
   }
 
   onSubmit = value => {
-    this.setState({ name: value });
+    this.setState({
+      images: [],
+      name: value,
+      page: 1,
+      isEmpty: true,
+      isVisible: false,
+      error: null,
+    });
   };
 
   getPhoto = async (name, page) => {
     if (!name) {
       return;
     }
-    const {
-      hits,
-      totalHits,
-      page: currentPage,
-      per_page,
-    } = await GetImg.getImages(name, page);
-    if (hits === 0) {
-      this.setState({ isEmpty: true });
+    this.setState({ isLoading: true });
+    try {
+      const { hits, totalHits } = await GetImg.getImages(name, page);
+      if (hits === 0) {
+        this.setState({ isEmpty: true });
+      }
+      this.setState(prevState => ({
+        images: [...prevState.images, ...hits],
+        isEmpty: false,
+        isVisible: Math.ceil(totalHits / 12),
+      }));
+    } catch (error) {
+      console.log(error);
+      this.setState({ error: error.message });
+    } finally {
+      this.setState({
+        isLoading: false,
+      });
     }
-    this.setState(prevState => ({
-      images: [...prevState.images, ...hits],
-      isEmpty: false,
-      isVisible: currentPage < Math.ceil(totalHits / per_page),
-    }));
   };
 
   onLoadMore = () => {
@@ -50,15 +70,16 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isEmpty, isVisible } = this.state;
+    const { images, isEmpty, isVisible, error, isLoading } = this.state;
 
     return (
-      <div>
+      <div className={css.App}>
         <Searchbar onSubmit={this.onSubmit} />
-        {isEmpty && <p>Sorry, there are no images...</p>}
-
+        {isEmpty && <p className={css.text}>Sorry, there are no images...</p>}
+        {error && <p className={css.text}>Sorry, {error}</p>}
         <ImageGallery images={images} />
-        {isVisible && <Button onClick={this.onLoadMore} />}
+        {isVisible &&
+          (isLoading ? <Loader /> : <Button onClick={this.onLoadMore} />)}
       </div>
     );
   }

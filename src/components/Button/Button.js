@@ -1,8 +1,9 @@
 import React from 'react';
+import css from '../Button/Button.module.css';
 
 export function Button({ onClick }) {
   return (
-    <button type="button" onClick={onClick}>
+    <button className={css.Button} type="button" onClick={onClick}>
       Load more
     </button>
   );
