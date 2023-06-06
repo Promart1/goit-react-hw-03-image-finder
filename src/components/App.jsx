@@ -73,7 +73,7 @@ export class App extends Component {
     const { images, isEmpty, isVisible, error, isLoading } = this.state;
 
     return (
-      <div className={css.App}>
+      <div className={css.app}>
         <Searchbar onSubmit={this.onSubmit} />
         {isEmpty && <p className={css.text}>Sorry, there are no images...</p>}
         {error && <p className={css.text}>Sorry, {error}</p>}

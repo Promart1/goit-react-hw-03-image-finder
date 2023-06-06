@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { FiSearch } from 'react-icons/fi';
+import PropTypes from 'prop-types';
 import css from '../Searchbar/Searchbar.module.css';
 
 export class Searchbar extends Component {
@@ -20,15 +22,15 @@ export class Searchbar extends Component {
   };
   render() {
     return (
-      <header className={css.Searchbar}>
-        <form className={css.SearchForm} onSubmit={this.handleSubmit}>
-          <button type="submit" className={css.SearchFormButton}>
-            <span className={css.SearchFormButtonLabel}>Search</span>
+      <header className={css.searchbar}>
+        <form className={css.searchForm} onSubmit={this.handleSubmit}>
+          <button type="submit" className={css.searchFormButton}>
+            <FiSearch />
           </button>
 
           <input
             onChange={this.handleInput}
-            className={css.SearchFormInput}
+            className={css.searchFormInput}
             type="text"
             autoComplete="off"
             autoFocus
@@ -39,3 +41,7 @@ export class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

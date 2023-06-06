@@ -3,7 +3,7 @@ import css from '../Loader/Loader.module.css';
 
 export function Loader() {
   return (
-    <div className={css.Loader}>
+    <div className={css.loader}>
       <Bars
         height="80"
         width="80"

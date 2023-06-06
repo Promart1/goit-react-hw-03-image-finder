@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal } from 'components/Modal/Modal';
+import PropTypes from 'prop-types';
 import css from '../ImageGalleryItem/ImageGalleryItem.module.css';
 
 export class ImageGalleryItem extends Component {
@@ -17,9 +18,9 @@ export class ImageGalleryItem extends Component {
   render() {
     const { smallImg, description, bigImg } = this.props;
     return (
-      <li className={css.ImageGalleryItem}>
+      <li className={css.imageGalleryItem}>
         <img
-          className={css.ImageGalleryItemIimage}
+          className={css.imageGalleryItemIimage}
           src={smallImg}
           alt={description}
           onClick={this.openModal}
@@ -31,3 +32,9 @@ export class ImageGalleryItem extends Component {
     );
   }
 }
+
+ImageGalleryItem.propTypes = {
+  smallUrl: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  bigUrl: PropTypes.string.isRequired,
+};
